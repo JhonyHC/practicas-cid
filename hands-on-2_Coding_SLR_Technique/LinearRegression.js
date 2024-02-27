@@ -6,11 +6,11 @@ export default class LinearRegression {
     #y
     #Ex;
     #Ey;
-    #xSquare;
-    #ySquare;
+    // #xSquare;
+    // #ySquare;
     #ExSquare;
     #EySquare;
-    #xy;
+    // #xy;
     #Exy;
     #tupleLength
 
@@ -21,12 +21,12 @@ export default class LinearRegression {
         this.#y = y
         this.#Ex = sumatory(x)
         this.#Ey = sumatory(y)
-        this.#xSquare = arraySquare(x)
-        this.#ySquare = arraySquare(y)
-        this.#ExSquare = sumatory(this.#xSquare)
-        this.#EySquare = sumatory(this.#ySquare)
-        this.#xy = multiplyArrays(x, y)
-        this.#Exy = sumatory(this.#xy)
+        // this.#xSquare = arraySquare(x)
+        // this.#ySquare = arraySquare(y)
+        this.#ExSquare = sumatory(arraySquare(x));
+        this.#EySquare = sumatory(arraySquare(y));
+        // this.#xy = multiplyArrays(x, y)
+        this.#Exy = sumatory(multiplyArrays(x, y));
         this.#tupleLength = x.length
     }
 
