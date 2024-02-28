@@ -1,87 +1,101 @@
-import { arraySquare, multiplyArrays, randomNumber, sumatory } from "./helper.js";
-
+import DiscreteMaths from "./DiscreteMaths.js";
 
 export default class LinearRegression {
-    #x
-    #y
-    #Ex;
-    #Ey;
-    // #xSquare;
-    // #ySquare;
-    #ExSquare;
-    #EySquare;
-    // #xy;
-    #Exy;
-    #tupleLength
+  #Ex;
+  #Ey;
+  #dataset
+  // #xSquare;
+  // #ySquare;
+  #ExSquare;
+  #EySquare;
+  // #xy;
+  #Exy;
+//   #beta_0;
+//   #beta_1;
 
-    constructor (x, y) {
-        if(x.length !== y.length) return null;
+  constructor(dataset) {
+    this.#dataset = dataset;
 
-        this.#x = x
-        this.#y = y
-        this.#Ex = sumatory(x)
-        this.#Ey = sumatory(y)
-        // this.#xSquare = arraySquare(x)
-        // this.#ySquare = arraySquare(y)
-        this.#ExSquare = sumatory(arraySquare(x));
-        this.#EySquare = sumatory(arraySquare(y));
-        // this.#xy = multiplyArrays(x, y)
-        this.#Exy = sumatory(multiplyArrays(x, y));
-        this.#tupleLength = x.length
-    }
+    this.#Ex = DiscreteMaths.sumatory(dataset.x);
+    this.#Ey = DiscreteMaths.sumatory(dataset.y);
+    this.#ExSquare = DiscreteMaths.sumatory(DiscreteMaths.arraySquare(dataset.x));
+    this.#EySquare = DiscreteMaths.sumatory(DiscreteMaths.arraySquare(dataset.y));
+    this.#Exy = DiscreteMaths.sumatory(DiscreteMaths.multiplyArrays(dataset.x, dataset.y));
+  }
 
-    get x() {
-        return this.#x
-    }
-    get y() {
-        return this.#y
-    }
-    get tupleLength() {
-        return this.#tupleLength
-    }
+  get x() {
+    return this.#dataset.x;
+  }
+  get y() {
+    return this.#dataset.y;
+  }
+  get tupleLength() {
+    return this.#dataset.xLength;
+  }
 
-    printRegressionModel() {
-        return `y = ${this.#b0} + ${this.#b1}x`
-    }
+  get beta_0() {
+    return this.#beta_0;
+  }
+  get beta_1() {
+    return this.#beta_1;
+  }
+  get #beta_0() {
+    const numerator = this.#Ey - this.#beta_1 * this.#Ex;
+    const denominator = this.tupleLength;
+    return numerator / denominator;
+  }
+  get #beta_1() {
+    const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
+    const denominator = this.tupleLength * this.#ExSquare - this.#Ex * this.#Ex;
+    return numerator / denominator
+  }
 
-    predict(x) {
-        return this.#b0 + (this.#b1 * x)
-    }
+//   toComputeBeta_1() {
+//     const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
+//     const denominator = this.tupleLength * this.#ExSquare - this.#Ex * this.#Ex;
+//     this.#beta_1 = numerator / denominator;
+// }
+// toComputeBeta_0() {
+//     if(!this.#beta_1) this.toComputeBeta_1()
+//     const numerator = this.#Ey - this.#beta_1 * this.#Ex;
+//     console.log(this.#Ey, this.#beta_1, this.#Ex);
+//     const denominator = this.tupleLength;
+//     console.log(numerator, denominator);
+//     this.#beta_0 = numerator / denominator;
+//   }
 
-    correlationCoefficient() {
-        const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
-        const denominator = Math.sqrt((this.tupleLength * this.#ExSquare - Math.pow(this.#Ex, 2)) * ((this.tupleLength * this.#EySquare - Math.pow(this.#Ey, 2))));
-        return numerator / denominator
-    }
-    determinationCoefficient() {
-        return Math.pow(this.correlationCoefficient(), 2)
-    }
+  printRegressionEq() {
+    return `y = ${this.#beta_0} + ${this.#beta_1}x`;
+  }
 
-    randomPredictions(quantity) {
-        let numbers = []
-        const minNumber = Math.min(...this.#x)
-        const maxNumber = Math.max(...this.#x);
-        for(let i=0; i < quantity; i++) {
-            numbers.push(randomNumber(minNumber, maxNumber));
-        }
-        const predictions = numbers.reduce((array, number) => {
-            array.push({ number, prediction: this.predict(number) });
-            return array;
-        }, [])
-        
-        return predictions
-    }
+  predict(x) {
+    return this.#beta_0 + this.#beta_1 * x;
+  }
 
-    get #b1() {
-        const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey
-        const denominator = this.tupleLength * this.#ExSquare - this.#Ex * this.#Ex
-        return numerator / denominator
-    }
+  correlationCoefficient() {
+    const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
+    const denominator = Math.sqrt(
+      (this.tupleLength * this.#ExSquare - Math.pow(this.#Ex, 2)) *
+        (this.tupleLength * this.#EySquare - Math.pow(this.#Ey, 2))
+    );
+    return numerator / denominator;
+  }
+  determinationCoefficient() {
+    return Math.pow(this.correlationCoefficient(), 2);
+  }
 
-    get #b0() {
-        const numerator = (this.#Ey) - (this.#b1 * this.#Ex)
-        const denominator = this.tupleLength
-        return numerator / denominator
+  randomPredictions(quantity) {
+    let numbers = [];
+    const minNumber = Math.min(...this.#dataset.x);
+    const maxNumber = Math.max(...this.#dataset.x);
+    for (let i = 0; i < quantity; i++) {
+      numbers.push(DiscreteMaths.randomNumber(minNumber, maxNumber));
     }
+    const predictions = numbers.reduce((array, number) => {
+      array.push({ number, prediction: this.predict(number) });
+      return array;
+    }, []);
 
+    return predictions;
+  }
 }

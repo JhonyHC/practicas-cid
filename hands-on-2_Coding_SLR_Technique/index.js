@@ -1,14 +1,17 @@
 import readlineSync from "readline-sync";
 import chalk from "chalk";
 import LinearRegression from "./LinearRegression.js";
+import DataSet from "./DataSet.js";
 
 const log = console.log;
-const linearR = new LinearRegression(
-  [23,	26,	30,	34,	43,	48,	52,	57,	58],
-  [651,	762,	856,	1063,	1190,	1298,	1421,	1440,	1518]
-  // [3.63, 3.02, 3.82, 3.42, 3.59, 2.87, 3.03, 3.46, 3.36, 3.3],
-  // [53.1, 49.7, 48.4, 54.2, 54.9, 43.7, 47.2, 45.2, 54.4, 50.4]
-);
+const dataset = new DataSet({
+  x: [23, 26, 30, 34, 43, 48, 52, 57, 58],
+  y: [651, 762, 856, 1063, 1190, 1298, 1421, 1440, 1518],
+});
+const linearR = new LinearRegression(dataset);
+
+// [3.63, 3.02, 3.82, 3.42, 3.59, 2.87, 3.03, 3.46, 3.36, 3.3],
+// [53.1, 49.7, 48.4, 54.2, 54.9, 43.7, 47.2, 45.2, 54.4, 50.4]
 const getMenu = () => {
   return `
 ${chalk.white.bgBlue("-- Linear Regression Options --")}
@@ -29,25 +32,35 @@ const optionsMap = {
     console.log("Bye!");
   },
   1() {
-    log(chalk.yellow(linearR.printRegressionModel()));
+    log(chalk.yellow(linearR.printRegressionEq()));
   },
   2() {
-    const value = toNumber(readlineSync.question("Value of x: "));
-    if (value === null) {
-      log(chalk.red("Wrong input, please enter a valid number"));
-      return;
-    }
-    const prediction = linearR.predict(value)
-    log(chalk.yellow(`Value of y: ${prediction}`))
+    // let value = toNumber(readlineSync.question("Value of x: "));
+    // if (value === null) {
+    //   log(chalk.red("Wrong input, please enter a valid number"));
+    //   return;
+    // }
+    let value = 70
+    const prediction = linearR.predict(value);
+    log(chalk.yellow(`Value of x: ${value}`));
+    log(chalk.yellow(`Value of y: ${prediction}`));
   },
   3() {
-    log(chalk.yellow(`Correlation Coefficient: ${linearR.correlationCoefficient()}`));
-    log(chalk.yellow(`Determination Coefficient: ${linearR.determinationCoefficient()}`));
+    log(
+      chalk.yellow(
+        `Correlation Coefficient: ${linearR.correlationCoefficient()}`
+      )
+    );
+    log(
+      chalk.yellow(
+        `Determination Coefficient: ${linearR.determinationCoefficient()}`
+      )
+    );
   },
   4() {
-    linearR.randomPredictions(5).forEach(prediction => {
-      log(chalk.yellow(`x: ${prediction.number}, y: ${prediction.prediction}`))
-    })
+    linearR.randomPredictions(5).forEach((prediction) => {
+      log(chalk.yellow(`x: ${prediction.number}, y: ${prediction.prediction}`));
+    });
   },
 };
 
