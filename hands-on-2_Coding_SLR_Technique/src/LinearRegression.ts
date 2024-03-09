@@ -1,26 +1,37 @@
 import DiscreteMaths from "./DiscreteMaths.js";
+import DataSet from "./DataSet.js";
 
+interface Prediction {
+  number: number,
+  prediction: number
+}
 export default class LinearRegression {
-  #Ex;
-  #Ey;
-  #dataset
+  #Ex: number;
+  #Ey: number;
+  #dataset: DataSet;
   // #xSquare;
   // #ySquare;
-  #ExSquare;
-  #EySquare;
+  #ExSquare: number;
+  #EySquare: number;
   // #xy;
-  #Exy;
-//   #beta_0;
-//   #beta_1;
+  #Exy: number;
+  //   #beta_0;
+  //   #beta_1;
 
-  constructor(dataset) {
+  constructor(dataset: DataSet) {
     this.#dataset = dataset;
 
     this.#Ex = DiscreteMaths.sumatory(dataset.x);
     this.#Ey = DiscreteMaths.sumatory(dataset.y);
-    this.#ExSquare = DiscreteMaths.sumatory(DiscreteMaths.arraySquare(dataset.x));
-    this.#EySquare = DiscreteMaths.sumatory(DiscreteMaths.arraySquare(dataset.y));
-    this.#Exy = DiscreteMaths.sumatory(DiscreteMaths.multiplyArrays(dataset.x, dataset.y));
+    this.#ExSquare = DiscreteMaths.sumatory(
+      DiscreteMaths.arraySquare(dataset.x)
+    );
+    this.#EySquare = DiscreteMaths.sumatory(
+      DiscreteMaths.arraySquare(dataset.y)
+    );
+    this.#Exy = DiscreteMaths.sumatory(
+      DiscreteMaths.multiplyArrays(dataset.x, dataset.y)
+    );
   }
 
   get x() {
@@ -47,28 +58,28 @@ export default class LinearRegression {
   get #beta_1() {
     const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
     const denominator = this.tupleLength * this.#ExSquare - this.#Ex * this.#Ex;
-    return numerator / denominator
+    return numerator / denominator;
   }
 
-//   toComputeBeta_1() {
-//     const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
-//     const denominator = this.tupleLength * this.#ExSquare - this.#Ex * this.#Ex;
-//     this.#beta_1 = numerator / denominator;
-// }
-// toComputeBeta_0() {
-//     if(!this.#beta_1) this.toComputeBeta_1()
-//     const numerator = this.#Ey - this.#beta_1 * this.#Ex;
-//     console.log(this.#Ey, this.#beta_1, this.#Ex);
-//     const denominator = this.tupleLength;
-//     console.log(numerator, denominator);
-//     this.#beta_0 = numerator / denominator;
-//   }
+  //   toComputeBeta_1() {
+  //     const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
+  //     const denominator = this.tupleLength * this.#ExSquare - this.#Ex * this.#Ex;
+  //     this.#beta_1 = numerator / denominator;
+  // }
+  // toComputeBeta_0() {
+  //     if(!this.#beta_1) this.toComputeBeta_1()
+  //     const numerator = this.#Ey - this.#beta_1 * this.#Ex;
+  //     console.log(this.#Ey, this.#beta_1, this.#Ex);
+  //     const denominator = this.tupleLength;
+  //     console.log(numerator, denominator);
+  //     this.#beta_0 = numerator / denominator;
+  //   }
 
   printRegressionEq() {
     return `y = ${this.#beta_0} + ${this.#beta_1}x`;
   }
 
-  predict(x) {
+  predict(x: number) {
     return this.#beta_0 + this.#beta_1 * x;
   }
 
@@ -84,14 +95,14 @@ export default class LinearRegression {
     return Math.pow(this.correlationCoefficient(), 2);
   }
 
-  randomPredictions(quantity) {
-    let numbers = [];
+  randomPredictions(quantity: number) {
+    let numbers: Array<number> = [];
     const minNumber = Math.min(...this.#dataset.x);
     const maxNumber = Math.max(...this.#dataset.x);
     for (let i = 0; i < quantity; i++) {
       numbers.push(DiscreteMaths.randomNumber(minNumber, maxNumber));
     }
-    const predictions = numbers.reduce((array, number) => {
+    const predictions = numbers.reduce((array: Array<Prediction>, number) => {
       array.push({ number, prediction: this.predict(number) });
       return array;
     }, []);
