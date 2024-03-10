@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "../dist/hands-on-2"
+    "outDir": "../dist/hands-on-3"
   },
-  "include": ["./src/**/*.ts"],
+  "include": [
+    "./src/**/*.ts",
+  ],
   "references": [
     {
       "path": "../globalClasses"

@@ -1,7 +1,7 @@
 import readlineSync from "readline-sync";
 import chalk from "chalk";
-import LinearRegression from "./LinearRegression.js";
-import DataSet from "./DataSet.js";
+import LinearRegression from "../../globalClasses/src/LinearRegression.js";
+import DataSet from "../../globalClasses/src/DataSet.js";
 const log = console.log;
 const dataset = new DataSet({
     x: [23, 26, 30, 34, 43, 48, 52, 57, 58],

@@ -1,7 +1,7 @@
 import readlineSync from "readline-sync";
 import chalk from "chalk";
-import LinearRegression from "../../globalClasses/src/LinearRegression.js";
-import DataSet from "../../globalClasses/src/DataSet.js";
+import LinearRegression from '../../globalClasses/src/LinearRegression.js'
+import DataSet from '../../globalClasses/src/DataSet.js'
 
 const log = console.log;
 const dataset = new DataSet({
@@ -14,7 +14,7 @@ const linearR = new LinearRegression(dataset);
 // [53.1, 49.7, 48.4, 54.2, 54.9, 43.7, 47.2, 45.2, 54.4, 50.4]
 const getMenu = () => {
   return `
-${chalk.white.bgBlue("-- Linear Regression Options --")}
+${chalk.white.bgBlue("-- Polynomial Regression Options --")}
 ${chalk.bold("x")}: ${chalk.blue(linearR.x)}
 ${chalk.bold("y")}: ${chalk.blue(linearR.y)}
 1.- Print the Regression Equation.
