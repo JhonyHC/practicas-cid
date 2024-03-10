@@ -1,22 +1,23 @@
 import readlineSync from "readline-sync";
 import chalk from "chalk";
-import LinearRegression from '../../globalClasses/src/LinearRegression.js'
+import PolynomialRegression from '../../globalClasses/src/PolynomialRegression.js'
 import DataSet from '../../globalClasses/src/DataSet.js'
+import Matrix from "../../globalClasses/src/Matrix.js";
 
 const log = console.log;
 const dataset = new DataSet({
-  x: [23, 26, 30, 34, 43, 48, 52, 57, 58],
-  y: [651, 762, 856, 1063, 1190, 1298, 1421, 1440, 1518],
+  x: [108, 115, 106, 97, 95, 91, 97, 83, 83, 78, 54, 67, 56, 51, 61, 115, 81, 78, 30, 45, 99, 32, 25, 28, 90, 89],
+  y: [95, 96, 95, 97, 93, 94, 95, 93, 92, 89, 73, 80, 65, 69, 77, 96, 87, 89, 60, 63, 95, 61, 55, 56, 94, 93],
 });
-const linearR = new LinearRegression(dataset);
+const polynomialR = new PolynomialRegression(dataset);
 
 // [3.63, 3.02, 3.82, 3.42, 3.59, 2.87, 3.03, 3.46, 3.36, 3.3],
 // [53.1, 49.7, 48.4, 54.2, 54.9, 43.7, 47.2, 45.2, 54.4, 50.4]
 const getMenu = () => {
   return `
 ${chalk.white.bgBlue("-- Polynomial Regression Options --")}
-${chalk.bold("x")}: ${chalk.blue(linearR.x)}
-${chalk.bold("y")}: ${chalk.blue(linearR.y)}
+${chalk.bold("x")}: ${chalk.blue(polynomialR.x)}
+${chalk.bold("y")}: ${chalk.blue(polynomialR.y)}
 1.- Print the Regression Equation.
 2.- Predict Y.
 3.- Print Coefficient of correlation & determination.
@@ -32,7 +33,15 @@ const optionsMap = {
     console.log("Bye!");
   },
   1() {
-    log(chalk.yellow(linearR.printRegressionEq()));
+    const matrix = new Matrix([
+      [1,4,0],
+      [-5,3,7],
+      [0,-9,5],
+      [5,1,4],
+    ])
+    console.log(matrix.columns);
+
+    // log(chalk.yellow(polynomialR.printRegressionEq()));
   },
   2() {
     // let value = toNumber(readlineSync.question("Value of x: "));
@@ -41,24 +50,24 @@ const optionsMap = {
     //   return;
     // }
     let value = 70
-    const prediction = linearR.predict(value);
+    const prediction = polynomialR.predict(value);
     log(chalk.yellow(`Value of x: ${value}`));
     log(chalk.yellow(`Value of y: ${prediction}`));
   },
   3() {
     log(
       chalk.yellow(
-        `Correlation Coefficient: ${linearR.correlationCoefficient()}`
+        `Correlation Coefficient: ${polynomialR.correlationCoefficient()}`
       )
     );
     log(
       chalk.yellow(
-        `Determination Coefficient: ${linearR.determinationCoefficient()}`
+        `Determination Coefficient: ${polynomialR.determinationCoefficient()}`
       )
     );
   },
   4() {
-    linearR.randomPredictions(5).forEach((prediction) => {
+    polynomialR.randomPredictions(5).forEach((prediction) => {
       log(chalk.yellow(`x: ${prediction.number}, y: ${prediction.prediction}`));
     });
   },
