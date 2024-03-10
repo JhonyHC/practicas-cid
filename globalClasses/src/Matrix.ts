@@ -7,7 +7,7 @@ export default class Matrix {
     
     this.#matrix = matrix;
     this.#direction = direction;
-    console.log(matrix);
+    // console.log(matrix);
   }
 
   get numOfRows() {
@@ -22,22 +22,36 @@ export default class Matrix {
   }
 
   get rows() {
-    return [...this.#matrix];
+    if(this.#direction === 'horizontal') {
+      return [...this.#matrix];
+    } else {
+      const numberOfRows = this.numOfRows;
+      const rows: number[][] = new Array(numberOfRows);
+
+      for (let i = 0; i < numberOfRows; i++) {
+        rows[i] = [];
+        this.#matrix.forEach((column) => {
+          rows[i].push(column[i]);
+        });
+      }
+      return rows;
+    }
   }
   get columns() {
-    const numberOfColums =
-    this.#direction === "horizontal"
-    ? this.#matrix[0].length
-    : this.#matrix.length;
-    const colums: number[][] = new Array(numberOfColums);
-    
-    for (let i = 0; i < numberOfColums; i++) {
-      colums[i] = []
-      this.#matrix.forEach((row) => {
-        colums[i].push(row[i]);
-      });
+    if(this.#direction === "horizontal") {
+      const numberOfColums = this.numOfColumns
+      const colums: number[][] = new Array(numberOfColums);
+      
+      for (let i = 0; i < numberOfColums; i++) {
+        colums[i] = []
+        this.#matrix.forEach((row) => {
+          colums[i].push(row[i]);
+        });
+      }
+      return colums
+    } else {
+      return [...this.#matrix]
     }
-    return colums
     /* for(let i = 0; i < this.#matrix.length; i++) {
       for()
       const colum = [
@@ -52,13 +66,21 @@ export default class Matrix {
 
   get transpose() {
     return new Matrix(
-      this.#matrix,
-      this.#direction === "horizontal" ? "vertical" : "horizontal"
+      this.#direction === 'horizontal' ? this.columns : this.rows,
+      this.#direction
     );
   }
 
   #getConstants = (length: number): number[] => new Array(length).fill(1);
 
+  toString() {
+    let string = `[\n`;
+    this.#matrix.forEach(row=> {
+      string += `[${row.toString()}]\n`
+    })
+    string += "]"
+    return string
+  }
   /**TODO */
   load() {}
 }

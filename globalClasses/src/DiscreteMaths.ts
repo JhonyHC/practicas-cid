@@ -1,3 +1,5 @@
+import Matrix from "./Matrix.js";
+
 export default class DiscreteMaths {
   constructor() {}
 
@@ -16,5 +18,19 @@ export default class DiscreteMaths {
 
   static randomNumber(min: number, max: number) {
     return Math.random() * (max - min) + min;
+  }
+
+  static multiplyMatrix(m1: Matrix, m2: Matrix): Matrix | null {
+    if(m1.numOfColumns !== m2.numOfRows) return null
+    const res = m1.rows.map(row => {
+      console.log("M1", row);
+      const newMultiplyRow: number[] = []
+      m2.columns.forEach(column => {
+        console.log("M2", column);
+        newMultiplyRow.push(this.sumatory(this.multiplyArrays(row, column)))
+      })
+      return newMultiplyRow
+    })
+    return new Matrix(res)
   }
 }

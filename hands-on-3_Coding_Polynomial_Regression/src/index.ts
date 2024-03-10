@@ -3,6 +3,7 @@ import chalk from "chalk";
 import PolynomialRegression from '../../globalClasses/src/PolynomialRegression.js'
 import DataSet from '../../globalClasses/src/DataSet.js'
 import Matrix from "../../globalClasses/src/Matrix.js";
+import DiscreteMaths from "../../globalClasses/src/DiscreteMaths.js";
 
 const log = console.log;
 const dataset = new DataSet({
@@ -33,15 +34,20 @@ const optionsMap = {
     console.log("Bye!");
   },
   1() {
-    const matrix = new Matrix([
-      [1,4,0],
-      [-5,3,7],
-      [0,-9,5],
-      [5,1,4],
-    ])
-    console.log(matrix.columns);
+    // const matrix1 = new Matrix([
+    //   [5, -2, 8],
+    //   [7, 1, 0],
+    //   [-4, -7, -6],
+    // ])
+    // const matrix2 = new Matrix([
+    //   [1, 0, 1],
+    //   [1, 2, 1],
+    //   [1, 1, 0],
+    // ]);
 
+    polynomialR.printRegressionEq();
     // log(chalk.yellow(polynomialR.printRegressionEq()));
+
   },
   2() {
     // let value = toNumber(readlineSync.question("Value of x: "));

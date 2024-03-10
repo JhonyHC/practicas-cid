@@ -2,7 +2,6 @@ import readlineSync from "readline-sync";
 import chalk from "chalk";
 import PolynomialRegression from '../../globalClasses/src/PolynomialRegression.js';
 import DataSet from '../../globalClasses/src/DataSet.js';
-import Matrix from "../../globalClasses/src/Matrix.js";
 const log = console.log;
 const dataset = new DataSet({
     x: [108, 115, 106, 97, 95, 91, 97, 83, 83, 78, 54, 67, 56, 51, 61, 115, 81, 78, 30, 45, 99, 32, 25, 28, 90, 89],
@@ -30,13 +29,17 @@ const optionsMap = {
         console.log("Bye!");
     },
     1() {
-        const matrix = new Matrix([
-            [1, 4, 0],
-            [-5, 3, 7],
-            [0, -9, 5],
-            [5, 1, 4],
-        ]);
-        console.log(matrix.columns);
+        // const matrix1 = new Matrix([
+        //   [5, -2, 8],
+        //   [7, 1, 0],
+        //   [-4, -7, -6],
+        // ])
+        // const matrix2 = new Matrix([
+        //   [1, 0, 1],
+        //   [1, 2, 1],
+        //   [1, 1, 0],
+        // ]);
+        polynomialR.printRegressionEq();
         // log(chalk.yellow(polynomialR.printRegressionEq()));
     },
     2() {

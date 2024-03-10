@@ -23,7 +23,7 @@ export default class PolynomialRegression {
 
   constructor(dataset: DataSet, approach: Approach = "linear") {
     this.#dataset = dataset;
-
+    this.approach = approach
     // this.#Ex = DiscreteMaths.sumatory(dataset.x);
     // this.#Ey = DiscreteMaths.sumatory(dataset.y);
     // this.#ExSquare = DiscreteMaths.sumatory(
@@ -40,7 +40,13 @@ export default class PolynomialRegression {
   printRegressionEq() {
     let matrix: Matrix;
     if(this.approach === 'linear') {
-      matrix = new Matrix([this.#dataset.x], 'vertical')
+      matrix = new Matrix([this.#dataset.x], 'vertical', true)
+      console.log("Inicia");
+      console.log("MatrixNormal", matrix.toString(), matrix.numOfColumns, matrix.numOfRows);
+      console.log("MatrixTranspuesta", matrix.transpose.toString(), matrix.transpose.numOfColumns, matrix.transpose.numOfRows);
+      console.log("----------");
+      console.log(DiscreteMaths.multiplyMatrix(matrix, matrix.transpose).toString());
+
     }
 
     return `y = ${this.#beta_0} + ${this.#beta_1}x`;
