@@ -77,9 +77,9 @@ const optionsMap = {
         log(chalk.yellow(`Determination Coefficient: ${polynomialR.determinationCoefficient()}`));
     },
     5() {
-        polynomialR.randomPredictions(5).forEach((prediction) => {
-            log(chalk.yellow(`x: ${prediction.number}, y: ${prediction.prediction}`));
-        });
+        // polynomialR.randomPredictions(5).forEach((prediction) => {
+        //   log(chalk.yellow(`x: ${prediction.number}, y: ${prediction.prediction}`));
+        // });
     },
 };
 while (exit === false) {

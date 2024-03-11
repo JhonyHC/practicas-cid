@@ -19,13 +19,13 @@ export default class PolynomialRegression {
   #Exy: number;
   //   #beta_0;
   //   #beta_1;
-  approach: Approach;
+  #approach: Approach;
   #betaCache: object
 
   constructor(dataset: DataSet, approach: Approach = "linear") {
     this.#dataset = dataset;
-    this.approach = approach
     this.#betaCache = {}
+    this.approach = approach
     // this.#Ex = DiscreteMaths.sumatory(dataset.x);
     // this.#Ey = DiscreteMaths.sumatory(dataset.y);
     // this.#ExSquare = DiscreteMaths.sumatory(
@@ -39,8 +39,15 @@ export default class PolynomialRegression {
     // );
   }
 
+  set approach(value: Approach) {
+    this.#approach = value
+    this.#computeBetaByApproach();
+  }
+  get approach(){
+    return this.#approach
+  }
+
   printRegressionEq() {
-    this.#computeBetaByApproach()
     if(this.approach === 'linear') {
       const [beta0, beta1] = this.#betaCache[this.approach]
       return `y = ${beta0} + ${beta1}x`;
@@ -91,17 +98,17 @@ export default class PolynomialRegression {
       xT_x_raisedMinus1_xT,
       new Matrix([this.#dataset.y], "vertical")
     );
-    console.log(finalMatrix.toString());
     this.#betaCache[this.approach] = finalMatrix.rows.flat();
     return finalMatrix.rows.flat();
   }
 
   getBetas() {
-    if(this.#betaCache[this.approach]) {
       return this.#betaCache[this.approach];
-    } else {
-      return this.#computeBetaByApproach()
-    }
+    // if(this.#betaCache[this.approach]) {
+    //   return this.#betaCache[this.approach];
+    // } else {
+    //   return this.#computeBetaByApproach()
+    // }
   }
 
   get x() {
@@ -114,40 +121,9 @@ export default class PolynomialRegression {
     return this.#dataset.xLength;
   }
 
-  get beta_0() {
-    return this.#beta_0;
-  }
-  get beta_1() {
-    return this.#beta_1;
-  }
-  get #beta_0() {
-    const numerator = this.#Ey - this.#beta_1 * this.#Ex;
-    const denominator = this.tupleLength;
-    return numerator / denominator;
-  }
-  get #beta_1() {
-    const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
-    const denominator = this.tupleLength * this.#ExSquare - this.#Ex * this.#Ex;
-    return numerator / denominator;
-  }
-
-  //   toComputeBeta_1() {
-  //     const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
-  //     const denominator = this.tupleLength * this.#ExSquare - this.#Ex * this.#Ex;
-  //     this.#beta_1 = numerator / denominator;
-  // }
-  // toComputeBeta_0() {
-  //     if(!this.#beta_1) this.toComputeBeta_1()
-  //     const numerator = this.#Ey - this.#beta_1 * this.#Ex;
-  //     console.log(this.#Ey, this.#beta_1, this.#Ex);
-  //     const denominator = this.tupleLength;
-  //     console.log(numerator, denominator);
-  //     this.#beta_0 = numerator / denominator;
-  //   }
-
-
   predict(x: number) {
-    return this.#beta_0 + this.#beta_1 * x;
+    
+    
   }
 
   correlationCoefficient() {
@@ -162,18 +138,18 @@ export default class PolynomialRegression {
     return Math.pow(this.correlationCoefficient(), 2);
   }
 
-  randomPredictions(quantity: number) {
-    let numbers: Array<number> = [];
-    const minNumber = Math.min(...this.#dataset.x);
-    const maxNumber = Math.max(...this.#dataset.x);
-    for (let i = 0; i < quantity; i++) {
-      numbers.push(DiscreteMaths.randomNumber(minNumber, maxNumber));
-    }
-    const predictions = numbers.reduce((array: Array<Prediction>, number) => {
-      array.push({ number, prediction: this.predict(number) });
-      return array;
-    }, []);
+  // randomPredictions(quantity: number) {
+  //   let numbers: Array<number> = [];
+  //   const minNumber = Math.min(...this.#dataset.x);
+  //   const maxNumber = Math.max(...this.#dataset.x);
+  //   for (let i = 0; i < quantity; i++) {
+  //     numbers.push(DiscreteMaths.randomNumber(minNumber, maxNumber));
+  //   }
+  //   const predictions = numbers.reduce((array: Array<Prediction>, number) => {
+  //     array.push({ number, prediction: this.predict(number) });
+  //     return array;
+  //   }, []);
 
-    return predictions;
-  }
+  //   return predictions;
+  // }
 }
