@@ -20,10 +20,12 @@ export default class PolynomialRegression {
   //   #beta_0;
   //   #beta_1;
   approach: Approach;
+  #betaCache: object
 
   constructor(dataset: DataSet, approach: Approach = "linear") {
     this.#dataset = dataset;
     this.approach = approach
+    this.#betaCache = {}
     // this.#Ex = DiscreteMaths.sumatory(dataset.x);
     // this.#Ey = DiscreteMaths.sumatory(dataset.y);
     // this.#ExSquare = DiscreteMaths.sumatory(
@@ -38,31 +40,68 @@ export default class PolynomialRegression {
   }
 
   printRegressionEq() {
-    let matrix: Matrix;
+    this.#computeBetaByApproach()
     if(this.approach === 'linear') {
-      matrix = new Matrix([this.#dataset.x], 'vertical', true)
-      const xT_x = DiscreteMaths.multiplyMatrix(
-        matrix.transpose,
-        matrix
-      );
-      const xT_x_raisedMinus1 = new Matrix(xT_x.inverse);
-      const xT_x_raisedMinus1_xT = DiscreteMaths.multiplyMatrix(
-        xT_x_raisedMinus1,
-        matrix.transpose
-      );
-      const finalMatrix = DiscreteMaths.multiplyMatrix(
-        xT_x_raisedMinus1_xT,
-        new Matrix([this.#dataset.y], 'vertical')
-      );
-      const [beta0, beta1] = finalMatrix.rows.flat()
-      console.log(beta0,beta1);
+      const [beta0, beta1] = this.#betaCache[this.approach]
       return `y = ${beta0} + ${beta1}x`;
+    }else if (this.approach === 'quadratic') {
+      const [beta0, beta1, beta2] = this.#betaCache[this.approach];
+      return `y = ${beta0} + ${beta1}x + ${beta2}x^2`;
+    }else if (this.approach === 'cubic') {
+      const [beta0, beta1, beta2, beta3] = this.#betaCache[this.approach];
+      return `y = ${beta0} + ${beta1}x + ${beta2}x^2 + ${beta3}x^3`;
     }
-
   }
 
-  #computeBeta(matrix: Matrix) {
-    
+  #computeBetaByApproach() {
+    let matrix: Matrix;
+    if (this.approach === "linear") {
+      matrix = new Matrix([this.#dataset.x], "vertical", true);
+      return this.#computeBetas(matrix);
+    } else if (this.approach === "quadratic") {
+      matrix = new Matrix(
+        [this.#dataset.x, DiscreteMaths.arrayPow(this.#dataset.x)],
+        "vertical",
+        true
+      );
+      return this.#computeBetas(matrix);
+    } else if (this.approach === "cubic") {
+      matrix = new Matrix(
+        [
+          this.#dataset.x,
+          DiscreteMaths.arrayPow(this.#dataset.x),
+          DiscreteMaths.arrayPow(this.#dataset.x, 3),
+        ],
+        "vertical",
+        true
+      );
+      return this.#computeBetas(matrix);
+    }
+  }
+
+  #computeBetas(matrix: Matrix) {
+    if(this.#betaCache[this.approach] !== undefined) return this.#betaCache[this.approach];
+    const xT_x = DiscreteMaths.multiplyMatrix(matrix.transpose, matrix);
+    const xT_x_raisedMinus1 = new Matrix(xT_x.inverse);
+    const xT_x_raisedMinus1_xT = DiscreteMaths.multiplyMatrix(
+      xT_x_raisedMinus1,
+      matrix.transpose
+    );
+    const finalMatrix = DiscreteMaths.multiplyMatrix(
+      xT_x_raisedMinus1_xT,
+      new Matrix([this.#dataset.y], "vertical")
+    );
+    console.log(finalMatrix.toString());
+    this.#betaCache[this.approach] = finalMatrix.rows.flat();
+    return finalMatrix.rows.flat();
+  }
+
+  getBetas() {
+    if(this.#betaCache[this.approach]) {
+      return this.#betaCache[this.approach];
+    } else {
+      return this.#computeBetaByApproach()
+    }
   }
 
   get x() {

@@ -28,8 +28,8 @@ class LinearRegression {
         __classPrivateFieldSet(this, _LinearRegression_dataset, dataset, "f");
         __classPrivateFieldSet(this, _LinearRegression_Ex, DiscreteMaths.sumatory(dataset.x), "f");
         __classPrivateFieldSet(this, _LinearRegression_Ey, DiscreteMaths.sumatory(dataset.y), "f");
-        __classPrivateFieldSet(this, _LinearRegression_ExSquare, DiscreteMaths.sumatory(DiscreteMaths.arraySquare(dataset.x)), "f");
-        __classPrivateFieldSet(this, _LinearRegression_EySquare, DiscreteMaths.sumatory(DiscreteMaths.arraySquare(dataset.y)), "f");
+        __classPrivateFieldSet(this, _LinearRegression_ExSquare, DiscreteMaths.sumatory(DiscreteMaths.arrayPow(dataset.x)), "f");
+        __classPrivateFieldSet(this, _LinearRegression_EySquare, DiscreteMaths.sumatory(DiscreteMaths.arrayPow(dataset.y)), "f");
         __classPrivateFieldSet(this, _LinearRegression_Exy, DiscreteMaths.sumatory(DiscreteMaths.multiplyArrays(dataset.x, dataset.y)), "f");
     }
     get x() {

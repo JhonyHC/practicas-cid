@@ -10,7 +10,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _LinearRegression_instances, _LinearRegression_Ex, _LinearRegression_Ey, _LinearRegression_dataset, _LinearRegression_ExSquare, _LinearRegression_EySquare, _LinearRegression_Exy, _LinearRegression_beta_0_get, _LinearRegression_beta_1_get;
-import DiscreteMaths from "./DiscreteMaths.js";
+import DiscreteMaths from "../../globalClasses/src/DiscreteMaths.js";
 class LinearRegression {
     //   #beta_0;
     //   #beta_1;
@@ -28,8 +28,8 @@ class LinearRegression {
         __classPrivateFieldSet(this, _LinearRegression_dataset, dataset, "f");
         __classPrivateFieldSet(this, _LinearRegression_Ex, DiscreteMaths.sumatory(dataset.x), "f");
         __classPrivateFieldSet(this, _LinearRegression_Ey, DiscreteMaths.sumatory(dataset.y), "f");
-        __classPrivateFieldSet(this, _LinearRegression_ExSquare, DiscreteMaths.sumatory(DiscreteMaths.arraySquare(dataset.x)), "f");
-        __classPrivateFieldSet(this, _LinearRegression_EySquare, DiscreteMaths.sumatory(DiscreteMaths.arraySquare(dataset.y)), "f");
+        __classPrivateFieldSet(this, _LinearRegression_ExSquare, DiscreteMaths.sumatory(DiscreteMaths.arrayPow(dataset.x)), "f");
+        __classPrivateFieldSet(this, _LinearRegression_EySquare, DiscreteMaths.sumatory(DiscreteMaths.arrayPow(dataset.y)), "f");
         __classPrivateFieldSet(this, _LinearRegression_Exy, DiscreteMaths.sumatory(DiscreteMaths.multiplyArrays(dataset.x, dataset.y)), "f");
     }
     get x() {

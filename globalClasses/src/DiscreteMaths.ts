@@ -7,9 +7,10 @@ export default class DiscreteMaths {
     return numbers.reduce((sum, number) => (sum += number), 0);
   }
 
-  static arraySquare(numbers: number[]): number[] {
-    return numbers.map((number) => number * number);
+  static arrayPow(numbers: number[], pow: number = 2): number[] {
+    return numbers.map((number) => Math.pow(number, pow));
   }
+
 
   static multiplyArrays(arr1: number[], arr2: number[]): number[] {
     if (arr1.length !== arr2.length) return null;

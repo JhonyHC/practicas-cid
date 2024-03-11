@@ -24,10 +24,10 @@ export default class LinearRegression {
     this.#Ex = DiscreteMaths.sumatory(dataset.x);
     this.#Ey = DiscreteMaths.sumatory(dataset.y);
     this.#ExSquare = DiscreteMaths.sumatory(
-      DiscreteMaths.arraySquare(dataset.x)
+      DiscreteMaths.arrayPow(dataset.x)
     );
     this.#EySquare = DiscreteMaths.sumatory(
-      DiscreteMaths.arraySquare(dataset.y)
+      DiscreteMaths.arrayPow(dataset.y)
     );
     this.#Exy = DiscreteMaths.sumatory(
       DiscreteMaths.multiplyArrays(dataset.x, dataset.y)
