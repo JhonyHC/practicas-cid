@@ -41,15 +41,24 @@ export default class PolynomialRegression {
     let matrix: Matrix;
     if(this.approach === 'linear') {
       matrix = new Matrix([this.#dataset.x], 'vertical', true)
-      console.log("Inicia");
-      console.log("MatrixNormal", matrix.toString(), matrix.numOfColumns, matrix.numOfRows);
-      console.log("MatrixTranspuesta", matrix.transpose.toString(), matrix.transpose.numOfColumns, matrix.transpose.numOfRows);
-      console.log("----------");
-      console.log(DiscreteMaths.multiplyMatrix(matrix, matrix.transpose).toString());
-
+      const xT_x = DiscreteMaths.multiplyMatrix(
+        matrix.transpose,
+        matrix
+      );
+      const xT_x_raisedMinus1 = new Matrix(xT_x.inverse);
+      const xT_x_raisedMinus1_xT = DiscreteMaths.multiplyMatrix(
+        xT_x_raisedMinus1,
+        matrix.transpose
+      );
+      const finalMatrix = DiscreteMaths.multiplyMatrix(
+        xT_x_raisedMinus1_xT,
+        new Matrix([this.#dataset.y], 'vertical')
+      );
+      const [beta0, beta1] = finalMatrix.rows.flat()
+      console.log(beta0,beta1);
+      return `y = ${beta0} + ${beta1}x`;
     }
 
-    return `y = ${this.#beta_0} + ${this.#beta_1}x`;
   }
 
   #computeBeta(matrix: Matrix) {

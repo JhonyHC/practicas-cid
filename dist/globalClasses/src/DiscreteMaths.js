@@ -19,10 +19,8 @@ export default class DiscreteMaths {
         if (m1.numOfColumns !== m2.numOfRows)
             return null;
         const res = m1.rows.map(row => {
-            console.log("M1", row);
             const newMultiplyRow = [];
             m2.columns.forEach(column => {
-                console.log("M2", column);
                 newMultiplyRow.push(this.sumatory(this.multiplyArrays(row, column)));
             });
             return newMultiplyRow;

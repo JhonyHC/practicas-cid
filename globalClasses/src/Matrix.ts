@@ -1,44 +1,28 @@
+import {inv} from 'mathjs'
+
 type MatrixDirection = "horizontal" | "vertical";
 export default class Matrix {
   #matrix: number[][];
-  #direction: MatrixDirection;
+  // #direction: MatrixDirection;
   constructor(matrix: number[][], direction: MatrixDirection = "horizontal", fillWithConstans = false) {
     fillWithConstans && matrix.unshift(this.#getConstants(matrix[0].length));
     
-    this.#matrix = matrix;
-    this.#direction = direction;
+    this.#matrix = direction === "vertical" ? this.#transformMatrix(matrix) : matrix;
+    // this.#direction = direction;
     // console.log(matrix);
   }
 
   get numOfRows() {
-    return this.#direction === "horizontal"
-      ? this.#matrix.length
-      : this.#matrix[0].length;
+    return this.#matrix.length
   }
   get numOfColumns() {
-    return this.#direction === "horizontal"
-      ? this.#matrix[0].length
-      : this.#matrix.length;
+    return this.#matrix[0].length
   }
 
   get rows() {
-    if(this.#direction === 'horizontal') {
       return [...this.#matrix];
-    } else {
-      const numberOfRows = this.numOfRows;
-      const rows: number[][] = new Array(numberOfRows);
-
-      for (let i = 0; i < numberOfRows; i++) {
-        rows[i] = [];
-        this.#matrix.forEach((column) => {
-          rows[i].push(column[i]);
-        });
-      }
-      return rows;
-    }
   }
   get columns() {
-    if(this.#direction === "horizontal") {
       const numberOfColums = this.numOfColumns
       const colums: number[][] = new Array(numberOfColums);
       
@@ -49,29 +33,32 @@ export default class Matrix {
         });
       }
       return colums
-    } else {
-      return [...this.#matrix]
-    }
-    /* for(let i = 0; i < this.#matrix.length; i++) {
-      for()
-      const colum = [
-        this.#matrix[i]
-      ]
-
-      {
-        0
-      }
-    } */
   }
 
   get transpose() {
     return new Matrix(
-      this.#direction === 'horizontal' ? this.columns : this.rows,
-      this.#direction
+      this.columns
     );
   }
 
+  get inverse() {
+    return inv(this.#matrix)
+  }
+
   #getConstants = (length: number): number[] => new Array(length).fill(1);
+
+  #transformMatrix(matrix: number[][]) {
+    const numberOfColumns = matrix[0].length;
+    const rows: number[][] = new Array(numberOfColumns);
+
+    for (let i = 0; i < numberOfColumns; i++) {
+      rows[i] = [];
+      matrix.forEach((row) => {
+        rows[i].push(row[i]);
+      });
+    }
+    return rows;
+  }
 
   toString() {
     let string = `[\n`;
