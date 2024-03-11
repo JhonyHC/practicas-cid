@@ -6,6 +6,9 @@ interface Prediction {
   number: number,
   prediction: number
 }
+interface BetaChache {
+  [key: string]: number[]
+}
 type Approach = 'linear' | 'quadratic' | 'cubic'
 export default class PolynomialRegression {
   #Ex: number;
@@ -20,7 +23,7 @@ export default class PolynomialRegression {
   //   #beta_0;
   //   #beta_1;
   #approach: Approach;
-  #betaCache: object
+  #betaCache: BetaChache
 
   constructor(dataset: DataSet, approach: Approach = "linear") {
     this.#dataset = dataset;
@@ -48,16 +51,22 @@ export default class PolynomialRegression {
   }
 
   printRegressionEq() {
-    if(this.approach === 'linear') {
-      const [beta0, beta1] = this.#betaCache[this.approach]
-      return `y = ${beta0} + ${beta1}x`;
-    }else if (this.approach === 'quadratic') {
-      const [beta0, beta1, beta2] = this.#betaCache[this.approach];
-      return `y = ${beta0} + ${beta1}x + ${beta2}x^2`;
-    }else if (this.approach === 'cubic') {
-      const [beta0, beta1, beta2, beta3] = this.#betaCache[this.approach];
-      return `y = ${beta0} + ${beta1}x + ${beta2}x^2 + ${beta3}x^3`;
+    const betas = this.getBetas();
+    let eq = `y = ${betas[0]}`
+    for(let i = 1; i < betas.length; i++) {
+      eq += ` + ${betas[i]}x${i !== 1 ? `^${i}` : ''}`
     }
+    return eq
+    // if(this.approach === 'linear') {
+    //   const [beta0, beta1] = this.#betaCache[this.approach]
+    //   return `y = ${beta0} + ${beta1}x`;
+    // }else if (this.approach === 'quadratic') {
+    //   const [beta0, beta1, beta2] = this.#betaCache[this.approach];
+    //   return `y = ${beta0} + ${beta1}x + ${beta2}x^2`;
+    // }else if (this.approach === 'cubic') {
+    //   const [beta0, beta1, beta2, beta3] = this.#betaCache[this.approach];
+    //   return `y = ${beta0} + ${beta1}x + ${beta2}x^2 + ${beta3}x^3`;
+    // }
   }
 
   #computeBetaByApproach() {

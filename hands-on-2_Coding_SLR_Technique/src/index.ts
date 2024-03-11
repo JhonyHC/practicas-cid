@@ -2,6 +2,7 @@ import readlineSync from "readline-sync";
 import chalk from "chalk";
 import LinearRegression from "../../globalClasses/src/LinearRegression.js";
 import DataSet from "../../globalClasses/src/DataSet.js";
+import {MapOptions} from '../../globalClasses/src/types/index.js'
 
 const log = console.log;
 const dataset = new DataSet({
@@ -26,7 +27,7 @@ ${chalk.bold("y")}: ${chalk.blue(linearR.y)}
 };
 
 let exit = false;
-const optionsMap = {
+const optionsMap: MapOptions = {
   0() {
     exit = true;
     console.log("Bye!");
@@ -74,7 +75,7 @@ while (exit === false) {
   optionsMap[option]();
 }
 
-function toNumber(value) {
+function toNumber(value: number) {
   const number = Number(value);
   return Number.isNaN(number) ? null : number;
 }
