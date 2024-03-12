@@ -11,7 +11,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _DataSet_x, _DataSet_y;
 class DataSet {
-    constructor({ x, y, sameLength = true }) {
+    constructor({ x, y, sameLength = true, xLabel = 'x', yLabel = 'y' }) {
         _DataSet_x.set(this, void 0);
         _DataSet_y.set(this, void 0);
         if (sameLength) {
@@ -21,6 +21,8 @@ class DataSet {
         }
         __classPrivateFieldSet(this, _DataSet_x, x, "f");
         __classPrivateFieldSet(this, _DataSet_y, y, "f");
+        this.xLabel = xLabel;
+        this.yLabel = yLabel;
     }
     get x() {
         return __classPrivateFieldGet(this, _DataSet_x, "f");

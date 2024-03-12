@@ -10,6 +10,8 @@ const log = console.log;
 const dataset = new DataSet({
   x: [108, 115, 106, 97, 95, 91, 97, 83, 83, 78, 54, 67, 56, 53, 61, 115, 81, 78, 30, 45, 99, 32, 25, 28, 90, 89],
   y: [95, 96, 95, 97, 93, 94, 95, 93, 92, 86, 73, 80, 65, 69, 77, 96, 87, 89, 60, 63, 95, 61, 55, 56, 94, 93],
+  xLabel: 'Batch Size',
+  yLabel: 'Machine Efficiency %'
 });
 const polynomialR = new PolynomialRegression(dataset);
 
@@ -87,33 +89,33 @@ const optionsMap: MapOptions = {
     polynomialR.approach = 'linear'
     let value = 70
     let prediction = polynomialR.predict(value);
-    log(chalk.yellow(`Value of x: ${value}`));
-    log(chalk.yellow(`Value of y: ${prediction}`));
+    log(chalk.yellow(`Value of ${polynomialR.xLabel}: ${value}`));
+    log(chalk.yellow(`Value of ${polynomialR.yLabel}: ${prediction}`));
 
     polynomialR.approach = 'quadratic'
     prediction = polynomialR.predict(value);
-    log(chalk.yellow(`Value of x: ${value}`));
-    log(chalk.yellow(`Value of y: ${prediction}`));
+    log(chalk.yellow(`Value of ${polynomialR.xLabel}: ${value}`));
+    log(chalk.yellow(`Value of ${polynomialR.yLabel}: ${prediction}`));
 
     polynomialR.approach = 'cubic'
     prediction = polynomialR.predict(value);
-    log(chalk.yellow(`Value of x: ${value}`));
-    log(chalk.yellow(`Value of y: ${prediction}`));
+    log(chalk.yellow(`Value of ${polynomialR.xLabel}: ${value}`));
+    log(chalk.yellow(`Value of ${polynomialR.yLabel}: ${prediction}`));
 
     polynomialR.approach = "linear";
     prediction = polynomialR.predict(32);
-    log(chalk.yellow(`Value of x: ${32}`));
-    log(chalk.yellow(`Value of y: ${prediction}`));
+    log(chalk.yellow(`Value of ${polynomialR.xLabel}: ${32}`));
+    log(chalk.yellow(`Value of ${polynomialR.yLabel}: ${prediction}`));
 
     polynomialR.approach = "quadratic";
     prediction = polynomialR.predict(56);
-    log(chalk.yellow(`Value of x: ${56}`));
-    log(chalk.yellow(`Value of y: ${prediction}`));
+    log(chalk.yellow(`Value of ${polynomialR.xLabel}: ${56}`));
+    log(chalk.yellow(`Value of ${polynomialR.yLabel}: ${prediction}`));
 
     polynomialR.approach = "cubic";
     prediction = polynomialR.predict(115);
-    log(chalk.yellow(`Value of x: ${115}`));
-    log(chalk.yellow(`Value of y: ${prediction}`));
+    log(chalk.yellow(`Value of ${polynomialR.xLabel}: ${115}`));
+    log(chalk.yellow(`Value of ${polynomialR.yLabel}: ${prediction}`));
   },
   5() {
     log(

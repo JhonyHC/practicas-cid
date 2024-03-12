@@ -11,17 +11,7 @@ interface ParametersChache {
 }
 type Approach = 'linear' | 'quadratic' | 'cubic'
 export default class PolynomialRegression {
-  #Ex: number;
-  #Ey: number;
   #dataset: DataSet;
-  // #xSquare;
-  // #ySquare;
-  #ExSquare: number;
-  #EySquare: number;
-  // #xy;
-  #Exy: number;
-  //   #Parameters_0;
-  //   #Parameters_1;
   #approach: Approach;
   #parametersCache: ParametersChache
 
@@ -29,17 +19,6 @@ export default class PolynomialRegression {
     this.#dataset = dataset;
     this.#parametersCache = {};
     this.approach = approach
-    // this.#Ex = DiscreteMaths.sumatory(dataset.x);
-    // this.#Ey = DiscreteMaths.sumatory(dataset.y);
-    // this.#ExSquare = DiscreteMaths.sumatory(
-    //   DiscreteMaths.arraySquare(dataset.x)
-    // );
-    // this.#EySquare = DiscreteMaths.sumatory(
-    //   DiscreteMaths.arraySquare(dataset.y)
-    // );
-    // this.#Exy = DiscreteMaths.sumatory(
-    //   DiscreteMaths.multiplyArrays(dataset.x, dataset.y)
-    // );
   }
 
   set approach(value: Approach) {
@@ -52,21 +31,11 @@ export default class PolynomialRegression {
 
   printRegressionEq() {
     const parameters = this.getParameters();
-    let eq = `y = ${parameters[0]}`
+    let eq = `${this.#dataset.yLabel} = ${parameters[0]}`
     for(let i = 1; i < parameters.length; i++) {
-      eq += ` + ${parameters[i]}x${i !== 1 ? `^${i}` : ''}`
+      eq += ` + ${parameters[i]} ${this.#dataset.xLabel}${i !== 1 ? `^${i}` : ''}`
     }
     return eq
-    // if(this.approach === 'linear') {
-    //   const [beta0, beta1] = this.#betaCache[this.approach]
-    //   return `y = ${beta0} + ${beta1}x`;
-    // }else if (this.approach === 'quadratic') {
-    //   const [beta0, beta1, beta2] = this.#betaCache[this.approach];
-    //   return `y = ${beta0} + ${beta1}x + ${beta2}x^2`;
-    // }else if (this.approach === 'cubic') {
-    //   const [beta0, beta1, beta2, beta3] = this.#betaCache[this.approach];
-    //   return `y = ${beta0} + ${beta1}x + ${beta2}x^2 + ${beta3}x^3`;
-    // }
   }
 
   #computeParametersByApproach() {
@@ -113,11 +82,6 @@ export default class PolynomialRegression {
 
   getParameters() {
       return this.#parametersCache[this.approach];
-    // if(this.#betaCache[this.approach]) {
-    //   return this.#betaCache[this.approach];
-    // } else {
-    //   return this.#computeBetaByApproach()
-    // }
   }
 
   get x() {
@@ -125,6 +89,12 @@ export default class PolynomialRegression {
   }
   get y() {
     return this.#dataset.y;
+  }
+  get xLabel() {
+    return this.#dataset.xLabel;
+  }
+  get yLabel() {
+    return this.#dataset.yLabel;
   }
   get tupleLength() {
     return this.#dataset.xLength;
