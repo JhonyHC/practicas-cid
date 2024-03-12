@@ -18,7 +18,7 @@ ${chalk.bold("y")}: ${chalk.blue(polynomialR.y)}
 1.- Print the Linear Regression Equation.
 2.- Print the Quadratic Regression Equation.
 3.- Print the Cubic Regression Equation.
-2.- Predict Y.
+4.- Predict Y.
 3.- Print Coefficient of correlation & determination.
 4.- Make 5 random predictions.
 0.- exit.
@@ -73,10 +73,37 @@ const optionsMap = {
         // log(chalk.yellow(`Value of y: ${prediction}`));
     },
     4() {
+        polynomialR.approach = 'linear';
+        let value = 70;
+        let prediction = polynomialR.predict(value);
+        log(chalk.yellow(`Value of x: ${value}`));
+        log(chalk.yellow(`Value of y: ${prediction}`));
+        polynomialR.approach = 'quadratic';
+        prediction = polynomialR.predict(value);
+        log(chalk.yellow(`Value of x: ${value}`));
+        log(chalk.yellow(`Value of y: ${prediction}`));
+        polynomialR.approach = 'cubic';
+        prediction = polynomialR.predict(value);
+        log(chalk.yellow(`Value of x: ${value}`));
+        log(chalk.yellow(`Value of y: ${prediction}`));
+        polynomialR.approach = "linear";
+        prediction = polynomialR.predict(32);
+        log(chalk.yellow(`Value of x: ${32}`));
+        log(chalk.yellow(`Value of y: ${prediction}`));
+        polynomialR.approach = "quadratic";
+        prediction = polynomialR.predict(56);
+        log(chalk.yellow(`Value of x: ${56}`));
+        log(chalk.yellow(`Value of y: ${prediction}`));
+        polynomialR.approach = "cubic";
+        prediction = polynomialR.predict(115);
+        log(chalk.yellow(`Value of x: ${115}`));
+        log(chalk.yellow(`Value of y: ${prediction}`));
+    },
+    5() {
         log(chalk.yellow(`Correlation Coefficient: ${polynomialR.correlationCoefficient()}`));
         log(chalk.yellow(`Determination Coefficient: ${polynomialR.determinationCoefficient()}`));
     },
-    5() {
+    6() {
         // polynomialR.randomPredictions(5).forEach((prediction) => {
         //   log(chalk.yellow(`x: ${prediction.number}, y: ${prediction.prediction}`));
         // });

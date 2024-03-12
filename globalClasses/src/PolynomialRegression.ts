@@ -6,7 +6,7 @@ interface Prediction {
   number: number,
   prediction: number
 }
-interface BetaChache {
+interface ParametersChache {
   [key: string]: number[]
 }
 type Approach = 'linear' | 'quadratic' | 'cubic'
@@ -20,14 +20,14 @@ export default class PolynomialRegression {
   #EySquare: number;
   // #xy;
   #Exy: number;
-  //   #beta_0;
-  //   #beta_1;
+  //   #Parameters_0;
+  //   #Parameters_1;
   #approach: Approach;
-  #betaCache: BetaChache
+  #parametersCache: ParametersChache
 
   constructor(dataset: DataSet, approach: Approach = "linear") {
     this.#dataset = dataset;
-    this.#betaCache = {}
+    this.#parametersCache = {};
     this.approach = approach
     // this.#Ex = DiscreteMaths.sumatory(dataset.x);
     // this.#Ey = DiscreteMaths.sumatory(dataset.y);
@@ -44,17 +44,17 @@ export default class PolynomialRegression {
 
   set approach(value: Approach) {
     this.#approach = value
-    this.#computeBetaByApproach();
+    this.#computeParametersByApproach();
   }
   get approach(){
     return this.#approach
   }
 
   printRegressionEq() {
-    const betas = this.getBetas();
-    let eq = `y = ${betas[0]}`
-    for(let i = 1; i < betas.length; i++) {
-      eq += ` + ${betas[i]}x${i !== 1 ? `^${i}` : ''}`
+    const parameters = this.getParameters();
+    let eq = `y = ${parameters[0]}`
+    for(let i = 1; i < parameters.length; i++) {
+      eq += ` + ${parameters[i]}x${i !== 1 ? `^${i}` : ''}`
     }
     return eq
     // if(this.approach === 'linear') {
@@ -69,18 +69,18 @@ export default class PolynomialRegression {
     // }
   }
 
-  #computeBetaByApproach() {
+  #computeParametersByApproach() {
     let matrix: Matrix;
     if (this.approach === "linear") {
       matrix = new Matrix([this.#dataset.x], "vertical", true);
-      return this.#computeBetas(matrix);
+      return this.#computeParameters(matrix);
     } else if (this.approach === "quadratic") {
       matrix = new Matrix(
         [this.#dataset.x, DiscreteMaths.arrayPow(this.#dataset.x)],
         "vertical",
         true
       );
-      return this.#computeBetas(matrix);
+      return this.#computeParameters(matrix);
     } else if (this.approach === "cubic") {
       matrix = new Matrix(
         [
@@ -91,12 +91,12 @@ export default class PolynomialRegression {
         "vertical",
         true
       );
-      return this.#computeBetas(matrix);
+      return this.#computeParameters(matrix);
     }
   }
 
-  #computeBetas(matrix: Matrix) {
-    if(this.#betaCache[this.approach] !== undefined) return this.#betaCache[this.approach];
+  #computeParameters(matrix: Matrix) {
+    if(this.#parametersCache[this.approach] !== undefined) return this.#parametersCache[this.approach];
     const xT_x = DiscreteMaths.multiplyMatrix(matrix.transpose, matrix);
     const xT_x_raisedMinus1 = new Matrix(xT_x.inverse);
     const xT_x_raisedMinus1_xT = DiscreteMaths.multiplyMatrix(
@@ -107,12 +107,12 @@ export default class PolynomialRegression {
       xT_x_raisedMinus1_xT,
       new Matrix([this.#dataset.y], "vertical")
     );
-    this.#betaCache[this.approach] = finalMatrix.rows.flat();
+    this.#parametersCache[this.approach] = finalMatrix.rows.flat();
     return finalMatrix.rows.flat();
   }
 
-  getBetas() {
-      return this.#betaCache[this.approach];
+  getParameters() {
+      return this.#parametersCache[this.approach];
     // if(this.#betaCache[this.approach]) {
     //   return this.#betaCache[this.approach];
     // } else {
@@ -131,8 +131,13 @@ export default class PolynomialRegression {
   }
 
   predict(x: number) {
+    const parameters = this.getParameters();
     
-    
+    let total = parameters[0];
+    for (let i = 1; i < parameters.length; i++) {
+      total += parameters[i] * Math.pow(x, i);
+    }
+    return total;
   }
 
   correlationCoefficient() {
