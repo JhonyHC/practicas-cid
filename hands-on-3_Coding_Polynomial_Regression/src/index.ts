@@ -1,17 +1,21 @@
 import readlineSync from "readline-sync";
 import chalk from "chalk";
-import PolynomialRegression from '../../globalClasses/src/PolynomialRegression.js'
-import DataSet from '../../globalClasses/src/DataSet.js'
-import Matrix from "../../globalClasses/src/Matrix.js";
-import DiscreteMaths from "../../globalClasses/src/DiscreteMaths.js";
-import { MapOptions } from '../../globalClasses/src/types/index.js'
+import PolynomialRegression from "../../globalClasses/src/PolynomialRegression.js";
+import DataSet from "../../globalClasses/src/DataSet.js";
+import { MapOptions } from "../../globalClasses/src/types/index.js";
 
 const log = console.log;
 const dataset = new DataSet({
-  x: [108, 115, 106, 97, 95, 91, 97, 83, 83, 78, 54, 67, 56, 53, 61, 115, 81, 78, 30, 45, 99, 32, 25, 28, 90, 89],
-  y: [95, 96, 95, 97, 93, 94, 95, 93, 92, 86, 73, 80, 65, 69, 77, 96, 87, 89, 60, 63, 95, 61, 55, 56, 94, 93],
-  xLabel: 'Batch Size',
-  yLabel: 'Machine Efficiency %'
+  x: [
+    108, 115, 106, 97, 95, 91, 97, 83, 83, 78, 54, 67, 56, 53, 61, 115, 81, 78,
+    30, 45, 99, 32, 25, 28, 90, 89,
+  ],
+  y: [
+    95, 96, 95, 97, 93, 94, 95, 93, 92, 86, 73, 80, 65, 69, 77, 96, 87, 89, 60,
+    63, 95, 61, 55, 56, 94, 93,
+  ],
+  xLabel: "Batch Size",
+  yLabel: "Machine Efficiency %",
 });
 const polynomialR = new PolynomialRegression(dataset);
 
@@ -27,7 +31,6 @@ ${chalk.bold("y")}: ${chalk.blue(polynomialR.y)}
 3.- Print the Cubic Regression Equation.
 4.- Predict Y.
 5.- Print Coefficient of correlation & determination.
-4.- Make 5 random predictions.
 0.- exit.
 `;
 };
@@ -53,12 +56,11 @@ const optionsMap: MapOptions = {
     // ]);
 
     // polynomialR.printRegressionEq();
-    polynomialR.approach = 'linear'
+    polynomialR.approach = "linear";
     log(chalk.yellow(polynomialR.printRegressionEq()));
-
   },
   2() {
-    polynomialR.approach = 'quadratic'
+    polynomialR.approach = "quadratic";
     log(chalk.yellow(polynomialR.printRegressionEq()));
 
     // let value = toNumber(readlineSync.question("Value of x: "));
@@ -72,7 +74,7 @@ const optionsMap: MapOptions = {
     // log(chalk.yellow(`Value of y: ${prediction}`));
   },
   3() {
-    polynomialR.approach = 'cubic'
+    polynomialR.approach = "cubic";
     log(chalk.yellow(polynomialR.printRegressionEq()));
 
     // let value = toNumber(readlineSync.question("Value of x: "));
@@ -86,18 +88,18 @@ const optionsMap: MapOptions = {
     // log(chalk.yellow(`Value of y: ${prediction}`));
   },
   4() {
-    polynomialR.approach = 'linear'
-    let value = 70
+    polynomialR.approach = "linear";
+    let value = 70;
     let prediction = polynomialR.predict(value);
     log(chalk.yellow(`Value of ${polynomialR.xLabel}: ${value}`));
     log(chalk.yellow(`Value of ${polynomialR.yLabel}: ${prediction}`));
 
-    polynomialR.approach = 'quadratic'
+    polynomialR.approach = "quadratic";
     prediction = polynomialR.predict(value);
     log(chalk.yellow(`Value of ${polynomialR.xLabel}: ${value}`));
     log(chalk.yellow(`Value of ${polynomialR.yLabel}: ${prediction}`));
 
-    polynomialR.approach = 'cubic'
+    polynomialR.approach = "cubic";
     prediction = polynomialR.predict(value);
     log(chalk.yellow(`Value of ${polynomialR.xLabel}: ${value}`));
     log(chalk.yellow(`Value of ${polynomialR.yLabel}: ${prediction}`));
@@ -118,23 +120,39 @@ const optionsMap: MapOptions = {
     log(chalk.yellow(`Value of ${polynomialR.yLabel}: ${prediction}`));
   },
   5() {
+    polynomialR.approach = "linear";
     log(
       chalk.yellow(
         `Correlation Coefficient: ${polynomialR.correlationCoefficient()}`
       )
     );
-    polynomialR.approach = 'linear'
-    log(chalk.yellow(
+    log(
+      chalk.yellow(
         `Determination Coefficient (linear): ${polynomialR.determinationCoefficient()}`
-      ));
-    polynomialR.approach = 'quadratic'
-    log(chalk.yellow(
+      )
+    );
+    polynomialR.approach = "quadratic";
+    log(
+      chalk.yellow(
+        `Correlation Coefficient: ${polynomialR.correlationCoefficient()}`
+      )
+    );
+    log(
+      chalk.yellow(
         `Determination Coefficient (quadratic): ${polynomialR.determinationCoefficient()}`
-      ));
-    polynomialR.approach = 'cubic'
-    log(chalk.yellow(
+      )
+    );
+    polynomialR.approach = "cubic";
+    log(
+      chalk.yellow(
+        `Correlation Coefficient: ${polynomialR.correlationCoefficient()}`
+      )
+    );
+    log(
+      chalk.yellow(
         `Determination Coefficient (cubic): ${polynomialR.determinationCoefficient()}`
-      ));
+      )
+    );
   },
   6() {
     // polynomialR.randomPredictions(5).forEach((prediction) => {

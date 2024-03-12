@@ -111,7 +111,13 @@ export default class PolynomialRegression {
   }
 
   correlationCoefficient() {
-    return DiscreteMaths.correlationCoefficient(this.#dataset.x, this.#dataset.y)
+    // return DiscreteMaths.correlationCoefficient(this.#dataset.x, this.#dataset.y)
+    return Math.sqrt(
+      DiscreteMaths.determinationCoefficient(
+        this.#dataset.y,
+        this.#predictDataset()
+      )
+    );
   }
   determinationCoefficient() {
     return DiscreteMaths.determinationCoefficient(this.#dataset.y, this.#predictDataset()) * 100
