@@ -67,10 +67,13 @@ class LinearRegression {
         return __classPrivateFieldGet(this, _LinearRegression_instances, "a", _LinearRegression_beta_0_get) + __classPrivateFieldGet(this, _LinearRegression_instances, "a", _LinearRegression_beta_1_get) * x;
     }
     correlationCoefficient() {
-        const numerator = this.tupleLength * __classPrivateFieldGet(this, _LinearRegression_Exy, "f") - __classPrivateFieldGet(this, _LinearRegression_Ex, "f") * __classPrivateFieldGet(this, _LinearRegression_Ey, "f");
-        const denominator = Math.sqrt((this.tupleLength * __classPrivateFieldGet(this, _LinearRegression_ExSquare, "f") - Math.pow(__classPrivateFieldGet(this, _LinearRegression_Ex, "f"), 2)) *
-            (this.tupleLength * __classPrivateFieldGet(this, _LinearRegression_EySquare, "f") - Math.pow(__classPrivateFieldGet(this, _LinearRegression_Ey, "f"), 2)));
-        return numerator / denominator;
+        return DiscreteMaths.correlationCoefficient(__classPrivateFieldGet(this, _LinearRegression_dataset, "f").x, __classPrivateFieldGet(this, _LinearRegression_dataset, "f").y);
+        // const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
+        // const denominator = Math.sqrt(
+        //   (this.tupleLength * this.#ExSquare - Math.pow(this.#Ex, 2)) *
+        //     (this.tupleLength * this.#EySquare - Math.pow(this.#Ey, 2))
+        // );
+        // return numerator / denominator;
     }
     determinationCoefficient() {
         return Math.pow(this.correlationCoefficient(), 2);

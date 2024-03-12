@@ -24,7 +24,7 @@ ${chalk.bold("y")}: ${chalk.blue(polynomialR.y)}
 2.- Print the Quadratic Regression Equation.
 3.- Print the Cubic Regression Equation.
 4.- Predict Y.
-3.- Print Coefficient of correlation & determination.
+5.- Print Coefficient of correlation & determination.
 4.- Make 5 random predictions.
 0.- exit.
 `;
@@ -121,11 +121,18 @@ const optionsMap: MapOptions = {
         `Correlation Coefficient: ${polynomialR.correlationCoefficient()}`
       )
     );
-    log(
-      chalk.yellow(
-        `Determination Coefficient: ${polynomialR.determinationCoefficient()}`
-      )
-    );
+    polynomialR.approach = 'linear'
+    log(chalk.yellow(
+        `Determination Coefficient (linear): ${polynomialR.determinationCoefficient()}`
+      ));
+    polynomialR.approach = 'quadratic'
+    log(chalk.yellow(
+        `Determination Coefficient (quadratic): ${polynomialR.determinationCoefficient()}`
+      ));
+    polynomialR.approach = 'cubic'
+    log(chalk.yellow(
+        `Determination Coefficient (cubic): ${polynomialR.determinationCoefficient()}`
+      ));
   },
   6() {
     // polynomialR.randomPredictions(5).forEach((prediction) => {

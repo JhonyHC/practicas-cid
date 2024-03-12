@@ -84,12 +84,13 @@ export default class LinearRegression {
   }
 
   correlationCoefficient() {
-    const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
-    const denominator = Math.sqrt(
-      (this.tupleLength * this.#ExSquare - Math.pow(this.#Ex, 2)) *
-        (this.tupleLength * this.#EySquare - Math.pow(this.#Ey, 2))
-    );
-    return numerator / denominator;
+    return DiscreteMaths.correlationCoefficient(this.#dataset.x, this.#dataset.y)
+    // const numerator = this.tupleLength * this.#Exy - this.#Ex * this.#Ey;
+    // const denominator = Math.sqrt(
+    //   (this.tupleLength * this.#ExSquare - Math.pow(this.#Ex, 2)) *
+    //     (this.tupleLength * this.#EySquare - Math.pow(this.#Ey, 2))
+    // );
+    // return numerator / denominator;
   }
   determinationCoefficient() {
     return Math.pow(this.correlationCoefficient(), 2);
