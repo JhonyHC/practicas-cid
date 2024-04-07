@@ -4,8 +4,8 @@ import LinearRegression from "../../globalClasses/src/LinearRegression.js";
 import DataSet from "../../globalClasses/src/DataSet.js";
 const log = console.log;
 const dataset = new DataSet({
-    x: [23, 26, 30, 34, 43, 48, 52, 57, 58],
-    y: [651, 762, 856, 1063, 1190, 1298, 1421, 1440, 1518],
+    x: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    y: [4, 8, 12, 16, 20, 24, 28, 32, 36],
 });
 const linearR = new LinearRegression(dataset);
 // [3.63, 3.02, 3.82, 3.42, 3.59, 2.87, 3.03, 3.46, 3.36, 3.3],

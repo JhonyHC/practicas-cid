@@ -43,49 +43,17 @@ const optionsMap: MapOptions = {
     console.log("Bye!");
   },
   1() {
-    // const matrix1 = new Matrix([
-    //   [2, -3],
-    //   [0, 4],
-    //   [7, -5],
-    // ])
-    // console.log(DiscreteMaths.multiplyMatrix(matrix1, matrix1.transpose).toString());
-    // const matrix2 = new Matrix([
-    //   [1, 0, 1],
-    //   [1, 2, 1],
-    //   [1, 1, 0],
-    // ]);
-
-    // polynomialR.printRegressionEq();
     polynomialR.approach = "linear";
     log(chalk.yellow(polynomialR.printRegressionEq()));
   },
   2() {
     polynomialR.approach = "quadratic";
     log(chalk.yellow(polynomialR.printRegressionEq()));
-
-    // let value = toNumber(readlineSync.question("Value of x: "));
-    // if (value === null) {
-    //   log(chalk.red("Wrong input, please enter a valid number"));
-    //   return;
-    // }
-    // let value = 70
-    // const prediction = polynomialR.predict(value);
-    // log(chalk.yellow(`Value of x: ${value}`));
-    // log(chalk.yellow(`Value of y: ${prediction}`));
   },
   3() {
     polynomialR.approach = "cubic";
     log(chalk.yellow(polynomialR.printRegressionEq()));
 
-    // let value = toNumber(readlineSync.question("Value of x: "));
-    // if (value === null) {
-    //   log(chalk.red("Wrong input, please enter a valid number"));
-    //   return;
-    // }
-    // let value = 70
-    // const prediction = polynomialR.predict(value);
-    // log(chalk.yellow(`Value of x: ${value}`));
-    // log(chalk.yellow(`Value of y: ${prediction}`));
   },
   4() {
     polynomialR.approach = "linear";
@@ -118,6 +86,7 @@ const optionsMap: MapOptions = {
     prediction = polynomialR.predict(115);
     log(chalk.yellow(`Value of ${polynomialR.xLabel}: ${115}`));
     log(chalk.yellow(`Value of ${polynomialR.yLabel}: ${prediction}`));
+    
   },
   5() {
     polynomialR.approach = "linear";
@@ -151,6 +120,11 @@ const optionsMap: MapOptions = {
     log(
       chalk.yellow(
         `Determination Coefficient (cubic): ${polynomialR.determinationCoefficient()}`
+      )
+    );
+    log(
+      chalk.gray(
+        `Correlation Coefficient (all): ${polynomialR.correlationCoefficientAll()}`
       )
     );
   },
