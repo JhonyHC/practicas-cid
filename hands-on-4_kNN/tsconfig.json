@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "../dist/hands-on-4"
+  },
+  "include": [
+    "./src/**/*.ts",
+  ],
+  "references": [
+    {
+      "path": "../globalClasses"
+    }
+  ],
+  "extends": "../tsconfig.json"
+}

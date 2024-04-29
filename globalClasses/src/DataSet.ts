@@ -5,6 +5,7 @@ type DataSetType = {
   xLabel?: string
   yLabel?: string
 };
+
 export default class DataSet {
   #x: number[];
   #y: number[];
