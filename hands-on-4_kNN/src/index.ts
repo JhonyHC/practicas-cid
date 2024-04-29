@@ -31,7 +31,31 @@ const dataset = new DataSetDynamic({
     "species",
   ],
   target: "species",
+  normalize: false,
 });
+// const dataset = new DataSetDynamic({
+//   data: [
+//     [25, 40000, 135],
+//     [35, 60000, 256],
+//     [45, 80000, 231],
+//     [20, 20000, 267],
+//     [35, 120000, 139],
+//     [52, 18000, 150],
+//     [23, 95000, 127],
+//     [40, 62000, 216],
+//     [60, 100000, 139],
+//     [48, 220000, 250],
+//     [33, 150000, 264],
+//   ],
+//   features: [
+//     "age",
+//     "loan",
+//     "HPI",
+//   ],
+//   target: "HPI",
+//   normalize: false,
+// }, 
+// );
 
 const knn = new kNN(dataset);
 
@@ -48,8 +72,6 @@ ${chalk.bold("k")}: ${chalk.blue(knn.k)}
 3.- Set k.
 4.- Predict (input).
 5.- Predict (automatic).
-6.- Predict Y.
-7.- Print Coefficient of correlation & determination.
 0.- exit.
 `;
 };

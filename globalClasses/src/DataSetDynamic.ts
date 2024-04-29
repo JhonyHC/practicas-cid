@@ -7,12 +7,20 @@ export default class DataSetDynamic {
   features: string[];
   target: string;
   #dataParsed: DataObject[] = [];
+  #minMax: { min: number, max: number }[] = [];
+  #normalized: boolean = false;
 
-  constructor(config: DataSetConfig) {
-    this.data = config.data;
-    this.features = config.features;
-    this.target = config.target;
+  constructor({ data, features, target, normalize = false }: DataSetConfig) {
+    this.data = data;
+    this.features = features;
+    this.target = target;
 
+    // Normaliza los datos
+    if (normalize) {
+      this.#computeMinMax();
+      this.#normalized = true;
+      this.normalizeData();
+    }
 
     // Parsea los datos a la forma { feature1: value1, feature2: value2, ..., target: targetValue }
     this.#dataParsed = this.data.map((row) => {
@@ -22,6 +30,10 @@ export default class DataSetDynamic {
 
   get dataParsed() {
     return this.#dataParsed;
+  }
+
+  get normalized() {
+    return this.#normalized;
   }
 
   parseRow(row: DataRow, hasTarget: boolean = true, type: "classification" | "regression" = "classification"): DataObject {
@@ -57,5 +69,26 @@ export default class DataSetDynamic {
 
     // obj[this.target] = hasTarget ? row[row.length - 1] : "";
     return obj;
+  }
+
+  #computeMinMax() {
+    this.#minMax = this.features.map((_, index) => {
+      const column = this.data.map((row) => row[index] as number);
+      return {
+        min: Math.min(...column),
+        max: Math.max(...column),
+      };
+    });
+  }
+
+  normalizeData() {
+    this.data = this.data.map((row) => this.normalizeRow(row));
+  }
+
+  normalizeRow(row: DataRow, hasTarget: boolean = true) {
+    return row.map((value, index) => {
+      if (index === row.length - 1 && hasTarget) return value;
+      return ((value as number) - this.#minMax[index].min) / (this.#minMax[index].max - this.#minMax[index].min);
+    }) as DataRow;
   }
 }

@@ -28,4 +28,5 @@ export interface DataSetConfig {
   data: DataRow[];
   features: string[];
   target: string;
+  normalize?: boolean;
 }

@@ -10,13 +10,13 @@ export default class kNN {
   #k: number = 3;
   #outputType: 'regression' | 'classification';
 
-  getOutputType() {
-    return this.#outputType;
-  }
-
   constructor(dataset: DataSetDynamic) {
     this.dataset = dataset;
     this.#outputType = this.dataset.dataParsed[0].type;
+  }
+
+  getOutputType() {
+    return this.#outputType;
   }
 
   get target() {
@@ -39,6 +39,9 @@ export default class kNN {
 
   predict(row: DataRow): number | string {
     // Parsea la fila a la forma { feature1: value1, feature2: value2, ..., target: targetValue }
+    if (this.dataset.normalized) {
+      row = this.dataset.normalizeRow(row, false);
+    }
     const parsedRow: DataObject = this.dataset.parseRow(row, false);
     
     const distances = this.dataset.dataParsed.map((data) => {;
@@ -63,20 +66,7 @@ export default class kNN {
     }
     
   }
-
-  getFeaturesValues(row : FeaturesInterface): number[] {
-    const rowValues: number[] = [];
-    this.dataset.features.forEach((feature) => {
-      const value = row[feature];
-      if (typeof value === 'number') {
-        rowValues.push(value);
-      }
-    });
-    return rowValues;
-  }
-
-
-
+  
   private euclideanDistance(row1: number[], row2: number[]): number {
     return Math.sqrt(
       row1.reduce((acc, feature, index) => {
@@ -84,5 +74,15 @@ export default class kNN {
       }, 0)
     );
   }
-
+  
+  // getFeaturesValues(row : FeaturesInterface): number[] {
+  //   const rowValues: number[] = [];
+  //   this.dataset.features.forEach((feature) => {
+  //     const value = row[feature];
+  //     if (typeof value === 'number') {
+  //       rowValues.push(value);
+  //     }
+  //   });
+  //   return rowValues;
+  // }
 }
