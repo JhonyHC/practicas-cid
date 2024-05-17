@@ -5,6 +5,10 @@ import DataSetDynamic from "../../globalClasses/src/DataSetDynamic.js";
 import { MapOptions } from "../../globalClasses/src/types/index.js";
 
 const log = console.log;
+
+/**
+ * Este dataset es para clasificación.
+ */
 const dataset = new DataSetDynamic({
   data: [
     [5.8, 2.8, 5.1, 2.4, "Iris-virginica"],
@@ -33,6 +37,10 @@ const dataset = new DataSetDynamic({
   target: "species",
   normalize: false,
 });
+
+/**
+ * Este dataset es para regresión.
+ */
 // const dataset = new DataSetDynamic({
 //   data: [
 //     [25, 40000, 135],
@@ -146,11 +154,6 @@ const optionsMap: MapOptions = {
       Prediction: ${prediction}`)
     );
 
-  },
-  6() {
-    // kNN.randomPredictions(5).forEach((prediction) => {
-    //   log(chalk.yellow(`x: ${prediction.number}, y: ${prediction.prediction}`));
-    // });
   },
 };
 
